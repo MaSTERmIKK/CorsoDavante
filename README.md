@@ -17,7 +17,7 @@ Percorso formativo Davante , repository di materiali extra e script didattici ag
 
 ## Contenuti della Repository
 
-Questa repository contiene tutto il materiale integrativo per il corso di Python di MasterD, tra cui:
+Questa repository contiene tutto il materiale integrativo per il corso di Python, BigData, Front End e Back end di Davante, tra cui:
 
 - **Slide:** Le presentazioni delle lezioni, aggiornate e pronte per essere consultate.
 - **Codice Integrativo:** Esempi di codice e progetti pratici che approfondiscono gli argomenti trattati durante il corso.
@@ -28,4 +28,4 @@ Questa repository contiene tutto il materiale integrativo per il corso di Python
 2. **Codice:** I file di codice sono commentati e strutturati per aiutarti a comprendere meglio ogni concetto.
 3. **Documentazione aggiuntiva:** Per facilitare lo studio e l’applicazione pratica dei contenuti.
 
-Buono studio e buon Master D
+Buono studio e buon Davante a tutti.
