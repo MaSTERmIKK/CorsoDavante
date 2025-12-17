@@ -1,15 +1,16 @@
 # CorsoMasterdPYTHON
-Percorso formativo in Python Master D, repository di materiali extra e script didattici aggiuntivi
+Percorso formativo Davante , repository di materiali extra e script didattici aggiuntivi
 
 
 <!-- Banner: Sostituisci il link con quello dell'immagine che desideri utilizzare -->
-![image](https://github.com/user-attachments/assets/aa552ae1-0764-4fc3-ad67-ed85857a8da3)
+[<img width="900" height="900" alt="image" src="https://github.com/user-attachments/assets/42ba3c95-d857-4a24-b3b5-96c11f9c245d" />](https://yt3.googleusercontent.com/Jetrn960jrPiF3PbYA0lMQlwdrKeQB3UOZgwc6jqVaaGp4arR2r7lOdkdnE2K-qe3Twhkp25EoQ=s900-c-k-c0x00ffffff-no-rj)
+
 
 
 
 <!-- Testo in arancione -->
 <p style="color: orange; font-size: 24px; text-align: center; margin-top: 20px;">
-  Benvenuti nella repository di MasterD del corso di Python
+  Benvenuti nella repository di Davante del corso del reparto di informatica
 </p>
 
 ---
