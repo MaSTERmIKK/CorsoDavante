@@ -1,0 +1,99 @@
+/*
+  style.css
+  SCOPO DIDATTICO:
+  - Mostrare selettori base (tag, classi, id)
+  - Box model (padding, margin, border)
+  - Layout semplice con flex
+  - Stati hover
+*/
+
+/* Selettore per TAG: vale per tutto il body */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;              /* elimina margine predefinito del browser */
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+/* Selettore di CLASSE: usata su più blocchi */
+.box {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;          /* spazio interno */
+  margin-bottom: 16px;    /* spazio esterno */
+}
+
+/* Selettore per ID: dovrebbe essere unico nella pagina */
+#titolo {
+  margin-top: 0;
+}
+
+/* Classe per testo descrittivo */
+.descrizione {
+  color: #555;
+}
+
+/* Input: stile base */
+input {
+  padding: 8px;
+  margin: 8px 0;
+  width: 260px;
+  max-width: 100%;
+}
+
+/* Bottone: stile base */
+button {
+  padding: 8px 12px;
+  border: 1px solid #bbb;
+  background: #eee;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-left: 6px;
+}
+
+/* Effetto hover: quando passi sopra col mouse */
+button:hover {
+  background: #e2e2e2;
+}
+
+/* Un bottone "danger" (es. svuota lista) */
+button.danger {
+  background: #ffe3e3;
+  border-color: #ffb3b3;
+}
+
+button.danger:hover {
+  background: #ffd1d1;
+}
+
+/* Riga con elementi affiancati: flexbox base */
+.riga {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* spazio tra elementi */
+}
+
+/* Etichetta tipo "badge" per il contatore */
+.badge {
+  display: inline-block;
+  min-width: 40px;
+  text-align: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #ccc;
+}
+
+/* Area output */
+.output {
+  background: #f0f8ff;
+  border: 1px solid #cfe8ff;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  color: #777;
+}

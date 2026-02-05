@@ -1,0 +1,85 @@
+<!--
+  index.html
+  SCOPO DIDATTICO:
+  - Mostrare la struttura base di una pagina HTML
+  - Collegare un file CSS esterno
+  - Collegare un file JS esterno
+  - Creare elementi con id/class per essere "agganciati" dal CSS e dal JS
+-->
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <!-- Meta info: charset e viewport sono "standard" per siti moderni -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Esercitazione guidata: HTML + CSS + JS</title>
+
+  <!-- Collegamento al CSS esterno -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <!-- HEADER: titolo e breve descrizione -->
+  <header class="box">
+    <h1 id="titolo">Esercitazione: basi Web</h1>
+    <p class="descrizione">
+      Obiettivo: interagire con la pagina usando JavaScript e stilizzarla con CSS.
+    </p>
+  </header>
+
+  <!-- MAIN: contenuto principale -->
+  <main class="box">
+    <h2>1) Input + Bottone</h2>
+
+    <!-- Label collegata all'input con for/id -->
+    <label for="nomeInput">Scrivi il tuo nome:</label>
+
+    <!-- input testuale: JS leggerà il valore -->
+    <input id="nomeInput" type="text" placeholder="Es. Mirko" />
+
+    <!-- Bottone: al click JS farà partire un'azione -->
+    <button id="btnSaluta">Saluta</button>
+
+    <!-- Area di output: JS scriverà qui -->
+    <p id="messaggio" class="output">Qui comparirà un messaggio…</p>
+
+    <hr />
+
+    <h2>2) Contatore</h2>
+    <p>Premi i pulsanti per aumentare/diminuire un numero.</p>
+
+    <!-- Contenitore con pulsanti + valore -->
+    <div class="riga">
+      <button id="btnMeno">-1</button>
+      <span id="contatore" class="badge">0</span>
+      <button id="btnPiu">+1</button>
+    </div>
+
+    <p id="statoContatore" class="output">Il contatore è neutro.</p>
+
+    <hr />
+
+    <h2>3) Lista dinamica (ciclo + DOM)</h2>
+    <p>
+      Scrivi un testo e aggiungilo alla lista. Poi puoi anche svuotarla.
+    </p>
+
+    <input id="itemInput" type="text" placeholder="Es. Studiare CSS" />
+    <button id="btnAggiungi">Aggiungi</button>
+    <button id="btnSvuota" class="danger">Svuota lista</button>
+
+    <!-- Lista vuota: JS aggiungerà <li> -->
+    <ul id="lista"></ul>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="box footer">
+    <small>File separati: index.html, style.css, script.js</small>
+  </footer>
+
+  <!-- Collegamento al JS: meglio a fine body così la pagina è già caricata -->
+  <script src="script.js"></script>
+</body>
+</html>
