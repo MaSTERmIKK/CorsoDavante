@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CSS Demo 2 - Altre caratteristiche (con commenti)</title>
+
+  <style>
+    /* ============================================================
+       DEMO 2: Altre caratteristiche CSS (con commenti)
+       In questa pagina vedi:
+       - Specificità + cascata + !important (solo come esempio didattico)
+       - Unità: rem/em/%/vh/vw/clamp()
+       - Pseudo-elementi ::before / ::after
+       - Liste e contatori CSS (counter-reset / counter-increment)
+       - Position: sticky
+       - Overlay con :target (senza JS)
+       - Form styling (accent-color)
+       - Filtri/blur e backdrop-filter
+       - Aspect-ratio
+       ============================================================ */
+
+    /* RESET e box model prevedibile */
+    * { box-sizing: border-box; }
+
+    /* Variabili globali */
+    :root{
+      --bg: #0b0f1a;
+      --panel: rgba(255,255,255,.06);
+      --panel2: rgba(255,255,255,.10);
+      --text: #eaf0ff;
+      --muted: rgba(234,240,255,.72);
+      --line: 1px solid rgba(255,255,255,.14);
+      --shadow: 0 12px 34px rgba(0,0,0,.45);
+      --radius: 16px;
+
+      /* clamp(min, preferito, max) rende font/spacing fluidi */
+      --title: clamp(22px, 3vw, 34px);
+      --pad: clamp(14px, 2.2vw, 22px);
+      --accent: #ffb703;
+      --accent2: #219ebc;
+      --danger: #e63946;
+    }
+
+    body{
+      margin: 0;
+      min-height: 100vh;
+      padding: 28px;
+
+      /* Sfondo con blur “finto neon” */
+      background:
+        radial-gradient(700px 400px at 15% 20%, rgba(255,183,3,.22), transparent 60%),
+        radial-gradient(800px 500px at 85% 25%, rgba(33,158,188,.20), transparent 60%),
+        radial-gradient(900px 600px at 55% 85%, rgba(230,57,70,.12), transparent 60%),
+        var(--bg);
+
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+    }
+
+    /* Container centrale */
+    .page{
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      gap: 20px;
+    }
+
+    /* Header “sticky”: resta appiccicato in alto quando scrolli */
+    .topbar{
+      position: sticky; /* caratteristica: sticky */
+      top: 12px;
+      z-index: 10; /* sopra agli altri elementi */
+
+      background: rgba(255,255,255,.06);
+      border: var(--line);
+      border-radius: calc(var(--radius) + 8px);
+      box-shadow: var(--shadow);
+
+      /* backdrop-filter sfoca il contenuto dietro (se supportato) */
+      backdrop-filter: blur(10px);
+
+      padding: var(--pad);
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .topbar h1{
+      margin: 0;
+      font-size: var(--title);
+      line-height: 1.05;
+      letter-spacing: .2px;
+    }
+
+    .pill{
+      border: var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      white-space: nowrap;
+      background: rgba(255,255,255,.04);
+    }
+
+    /* Layout a due colonne: a sinistra testo, a destra demo */
+    .grid{
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 20px;
+    }
+
+    /* Card base riutilizzabile */
+    .card{
+      background: var(--panel);
+      border: var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: var(--pad);
+    }
+
+    .card h2{
+      margin: 0 0 10px 0;
+      font-size: 18px;
+    }
+
+    .card p{
+      margin: 10px 0;
+      line-height: 1.6;
+      color: var(--muted);
+      font-size: 1rem; /* rem = relativo al font-size della root */
+    }
+
+    /* Evidenziatore */
+    .mark{
+      color: var(--text);
+      background: rgba(255,183,3,.14);
+      border: 1px solid rgba(255,183,3,.25);
+      padding: 0 7px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       1) Specificità e cascata: esempi
+       - #id è più specifico di .classe
+       - !important “vince” quasi sempre (evitalo nei progetti reali)
+       ============================================================ */
+
+    /* Stile generico */
+    .hint { color: rgba(234,240,255,.78); }
+
+    /* Stile più specifico: classe + elemento */
+    .card .hint { color: rgba(33,158,188,.95); }
+
+    /* Ancora più specifico: id */
+    #verySpecific { color: rgba(255,183,3,.95); }
+
+    /* Esempio didattico con !important (non consigliato) */
+    .forceWin { color: var(--danger) !important; }
+
+    /* ============================================================
+       2) Pseudo-elementi: ::before e ::after
+       - inseriscono “contenuto decorativo” senza modificare l’HTML
+       ============================================================ */
+
+    .tag{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: var(--line);
+      background: rgba(255,255,255,.04);
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .tag::before{
+      /* Esempio: pallino decorativo prima del testo */
+      content: "";
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 14px rgba(255,183,3,.25);
+    }
+
+    .tag::after{
+      /* Esempio: piccola “freccia” dopo il testo */
+      content: "›";
+      color: rgba(234,240,255,.7);
+      transform: translateY(-1px);
+    }
+
+    /* ============================================================
+       3) Contatori CSS: numerazione automatica
+       - counter-reset: crea/azzera un contatore
+       - counter-increment: incrementa
+       - content: counter(nome) per stamparlo
+       ============================================================ */
+
+    .steps{
+      counter-reset: step; /* crea contatore step = 0 */
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+      padding-left: 0;
+      list-style: none; /* togli pallini default */
+    }
+
+    .steps li{
+      counter-increment: step; /* step++ */
+      padding: 12px 12px 12px 14px;
+      border: var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      line-height: 1.45;
+      position: relative;
+    }
+
+    .steps li::before{
+      /* Stampo il numero */
+      content: counter(step);
+      position: absolute;
+      left: 12px;
+      top: 12px;
+      width: 26px;
+      height: 26px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      background: rgba(33,158,188,.18);
+      border: 1px solid rgba(33,158,188,.28);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .steps li{
+      padding-left: 50px; /* spazio per il numero */
+    }
+
+    /* ============================================================
+       4) Aspect-ratio + immagini/box responsivi
+       ============================================================ */
+
+    .mediaBox{
+      aspect-ratio: 16 / 9; /* mantiene proporzione */
+      border-radius: 16px;
+      border: var(--line);
+      overflow: hidden;
+      background:
+        linear-gradient(135deg, rgba(255,183,3,.18), transparent 55%),
+        linear-gradient(225deg, rgba(33,158,188,.16), transparent 55%),
+        rgba(255,255,255,.04);
+      display: grid;
+      place-items: center;
+      margin-top: 12px;
+      position: relative;
+    }
+
+    .mediaBox span{
+      color: rgba(234,240,255,.75);
+      font-size: 14px;
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.20);
+    }
+
+    /* ============================================================
+       5) Overlay (modale) con :target (senza JavaScript)
+       - quando l'URL punta a #help, l'elemento con id="help" diventa target
+       ============================================================ */
+
+    .openModal{
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: var(--line);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      text-decoration: none;
+      transition: transform .15s ease, background .2s ease;
+    }
+
+    .openModal:hover{
+      background: rgba(255,255,255,.08);
+      transform: translateY(-1px);
+    }
+
+    /* Strato overlay nascosto di default */
+    .modal{
+      position: fixed;
+      inset: 0;
+      display: none; /* nascosto */
+      place-items: center;
+      padding: 20px;
+      background: rgba(0,0,0,.55);
+    }
+
+    /* Quando è :target, appare */
+    .modal:target{
+      display: grid;
+    }
+
+    .modal .dialog{
+      width: min(720px, 100%);
+      border-radius: 18px;
+      border: var(--line);
+      background: rgba(20, 24, 40, .92);
+      box-shadow: var(--shadow);
+      padding: 16px;
+      backdrop-filter: blur(10px);
+    }
+
+    .modal .dialog h3{
+      margin: 0 0 8px 0;
+      font-size: 18px;
+    }
+
+    .modal .dialog p{
+      margin: 10px 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .modal .close{
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: var(--line);
+      background: rgba(255,255,255,.05);
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    /* ============================================================
+       6) Form: accent-color e focus
+       ============================================================ */
+    .formRow{
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 14px;
+      border: var(--line);
+      background: rgba(255,255,255,.03);
+    }
+
+    label{
+      display: grid;
+      gap: 6px;
+      color: rgba(234,240,255,.82);
+      font-size: 14px;
+    }
+
+    input[type="text"]{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline: none; /* lo gestiamo noi con :focus-visible */
+    }
+
+    input[type="text"]:focus-visible{
+      outline: 3px solid rgba(33,158,188,.45);
+      outline-offset: 2px;
+      border-color: rgba(33,158,188,.55);
+    }
+
+    input[type="checkbox"]{
+      /* accent-color colora checkbox/radio in molti browser moderni */
+      accent-color: var(--accent2);
+      transform: translateY(1px);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 900px){
+      body{ padding: 16px; }
+      .grid{ grid-template-columns: 1fr; }
+      .topbar{ flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+
+    <header class="topbar">
+      <h1>CSS Demo 2: unità, pseudo-elementi, contatori, sticky, :target</h1>
+      <div class="pill">Scrolla: header <b>sticky</b> + overlay senza JS</div>
+    </header>
+
+    <section class="grid">
+      <!-- ===========================
+           6+ paragrafi (come div/p)
+           =========================== -->
+      <article class="card">
+        <h2>Spiegazione (altre caratteristiche)</h2>
+
+        <div>
+          <p>
+            In questo esempio vedi come CSS gestisce <span class="mark">cascata e specificità</span>: più regole possono
+            puntare allo stesso elemento, e vince quella più specifica (o dichiarata dopo). L’uso di <code>!important</code>
+            è mostrato solo per studio, ma in progetti reali va evitato perché rende difficile la manutenzione.
+          </p>
+        </div>
+
+        <div>
+          <p>
+            Le <span class="mark">unità</span> contano: <code>rem</code> è relativo alla dimensione del font root, <code>%</code>
+            è relativo al contenitore, <code>vh/vw</code> al viewport. Con <code>clamp()</code> puoi rendere font e spaziature
+            “fluidi” senza mille media query.
+          </p>
+        </div>
+
+        <div>
+          <p>
+            I <span class="mark">pseudo-elementi</span> (<code>::before</code> e <code>::after</code>) permettono di inserire
+            contenuti decorativi senza aggiungere nuovi tag HTML. Sono utili per icone, badge, linee, virgolette e dettagli UI.
+          </p>
+        </div>
+
+        <div>
+          <p>
+            Con i <span class="mark">contatori CSS</span> puoi numerare automaticamente una lista: si definisce un contatore,
+            lo si incrementa per ogni elemento e lo si stampa con <code>content: counter(...)</code>. È ottimo per step, checklist
+            o capitoli.
+          </p>
+        </div>
+
+        <div>
+          <p>
+            <span class="mark">position: sticky</span> è una via di mezzo tra relative e fixed: l’elemento scorre normalmente,
+            poi quando raggiunge una certa soglia rimane “attaccato” in alto. È perfetto per barre di navigazione o filtri.
+          </p>
+        </div>
+
+        <div>
+          <p>
+            L’overlay qui usa <span class="mark">:target</span>: quando clicchi un link a <code>#help</code>, l’elemento con
+            <code>id="help"</code> diventa il target e cambia stile, mostrando una “modale” senza JavaScript.
+          </p>
+        </div>
+
+        <div class="tag">Pseudo-elementi e contatori in azione</div>
+
+        <ul class="steps">
+          <li>Questa lista è numerata da un contatore CSS.</li>
+          <li>Il numero è disegnato con <code>::before</code> e <code>content</code>.</li>
+          <li>Il layout resta pulito perché l’HTML non contiene i numeri.</li>
+        </ul>
+
+        <a class="openModal" href="#help">Apri overlay (senza JS)</a>
+
+        <!-- Overlay con :target -->
+        <div id="help" class="modal">
+          <div class="dialog">
+            <h3>Overlay con :target</h3>
+            <p>
+              Quando l’URL contiene <code>#help</code>, questo elemento diventa <b>:target</b> e passa da <code>display: none</code>
+              a <code>display: grid</code>. È una tecnica utile per demo e prototipi.
+            </p>
+            <p class="hint" id="verySpecific">
+              Specificità demo: questo testo è colorato da una regola con <span class="mark">#id</span>.
+            </p>
+            <p class="hint forceWin">
+              Questo invece usa <span class="mark">!important</span> (solo esempio didattico).
+            </p>
+            <a class="close" href="#">Chiudi</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- ===========================
+           DEMO: aspect-ratio + form
+           =========================== -->
+      <aside class="card">
+        <h2>Demo visiva</h2>
+
+        <div class="mediaBox">
+          <span>aspect-ratio 16:9 (sempre proporzionato)</span>
+        </div>
+
+        <div class="formRow">
+          <label>
+            Input con focus visibile:
+            <input type="text" placeholder="Prova a cliccare e poi Tab" />
+          </label>
+
+          <label>
+            <span>Checkbox con <code>accent-color</code>:</span>
+            <span>
+              <input type="checkbox" checked />
+              Opzione attiva
+            </span>
+          </label>
+
+          <p class="hint">
+            Questo box mostra styling dei form e gestione del focus (accessibilità).
+          </p>
+        </div>
+
+        <p class="hint">
+          Suggerimento: prova a ridimensionare la finestra per vedere il layout passare a una colonna.
+        </p>
+      </aside>
+    </section>
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Demo: Come funziona CSS (con commenti)</title>
+
+  <style>
+    /* ============================================================
+       CSS: Cos'è e come funziona
+       - CSS = Cascading Style Sheets
+       - "Cascading" = regole che si sovrappongono e si risolvono con priorità
+       - Gli stili si applicano tramite selettori (tag, classi, id, attributi, ecc.)
+       ============================================================ */
+
+    /* ------------------------------
+       1) RESET BASE (semplice)
+       Serve per ridurre differenze tra browser
+       ------------------------------ */
+    * {
+      /* box-sizing: border-box fa sì che width/height includano padding e border.
+         È molto più comodo per layout prevedibili. */
+      box-sizing: border-box;
+    }
+
+    /* ------------------------------
+       2) VARIABILI CSS (custom properties)
+       Definite in :root (radice del documento) così sono globali
+       ------------------------------ */
+    :root {
+      /* Colori principali riutilizzabili in tutto il CSS */
+      --bg: #0b1020;
+      --panel: rgba(255, 255, 255, 0.06);
+      --panel-2: rgba(255, 255, 255, 0.10);
+      --text: #e9eefc;
+      --muted: rgba(233, 238, 252, 0.75);
+      --accent: #7c5cff;
+      --accent-2: #00d4ff;
+      --danger: #ff3d71;
+
+      /* Spaziature e raggi */
+      --radius: 16px;
+      --gap: 16px;
+
+      /* Ombre e bordi */
+      --border: 1px solid rgba(255, 255, 255, 0.14);
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.40);
+    }
+
+    /* ------------------------------
+       3) STILI GLOBALI DEL DOCUMENTO
+       ------------------------------ */
+    body {
+      /* Sfondo con gradiente: esempio di background complesso */
+      background:
+        radial-gradient(900px 400px at 10% 10%, rgba(255, 244, 92, 0.35), transparent 55%),
+        radial-gradient(700px 500px at 80% 20%, rgba(0, 212, 255, 0.25), transparent 55%),
+        radial-gradient(900px 700px at 70% 80%, rgba(61, 255, 80, 0.14), transparent 60%),
+        var(--bg);
+
+      /* Font stack: se non c'è il primo, usa i successivi */
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+
+      /* Colore testo globale */
+      color: var(--text);
+
+      /* Margin default del body azzerato per controllo completo */
+      margin: 0;
+
+      /* Spaziatura interna generale */
+      padding: 32px;
+
+      /* Altezza minima: riempie lo schermo */
+      min-height: 100vh;
+    }
+
+    /* Selezione testo (quando evidenzi con mouse) */
+    ::selection {
+      background: rgba(124, 92, 255, 0.45);
+    }
+
+    /* ------------------------------
+       4) CONTAINER PRINCIPALE
+       ------------------------------ */
+    .page {
+      /* max-width limita la larghezza per leggibilità */
+      max-width: 1100px;
+      margin: 0 auto; /* centra orizzontalmente */
+      display: grid; /* grid per layout a sezioni */
+      gap: 24px;
+    }
+
+    /* ------------------------------
+       5) HEADER
+       ------------------------------ */
+    header.hero {
+      /* pannello semi-trasparente */
+      background: linear-gradient(180deg, var(--panel), transparent 140%);
+      border: var(--border);
+      border-radius: calc(var(--radius) + 6px);
+      box-shadow: var(--shadow);
+      padding: 20px 20px 16px 20px;
+
+      /* layout interno con flex: titolo a sinistra, badge a destra */
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--gap);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 26px;
+      letter-spacing: 0.2px;
+      line-height: 1.15;
+    }
+
+    .hero .badge {
+      /* badge come pill */
+      border: var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* ------------------------------
+       6) CARD GENERICHE (riusabili)
+       ------------------------------ */
+    .card {
+      background: var(--panel);
+      border: var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+
+    .card h2 {
+      margin: 0 0 10px 0;
+      font-size: 18px;
+    }
+
+    .card p {
+      /* tipografia: line-height migliora leggibilità */
+      line-height: 1.55;
+      margin: 10px 0;
+      color: var(--muted);
+    }
+
+    /* ------------------------------
+       7) SEZIONE EXPLAIN + DEMO
+       Layout responsivo: due colonne su schermi larghi, una colonna su piccoli
+       ------------------------------ */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr; /* colonna sinistra più grande */
+      gap: 24px;
+    }
+
+    /* ------------------------------
+       8) DIMOSTRAZIONI: BOX MODEL
+       ------------------------------ */
+    .box-demo {
+      display: grid;
+      gap: 12px;
+    }
+
+    .box {
+      /* Questo mostra padding, border e background */
+      border: 2px dashed rgba(255, 255, 255, 0.30);
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.04);
+
+      /* Transizione: rende "morbidi" i cambiamenti */
+      transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+    }
+
+    /* Pseudo-classe :hover (quando passi col mouse) */
+    .box:hover {
+      transform: translateY(-2px);
+      background: rgba(124, 92, 255, 0.10);
+      border-color: rgba(124, 92, 255, 0.60);
+    }
+
+    .box strong {
+      color: var(--text);
+    }
+
+    /* ------------------------------
+       9) DIMOSTRAZIONI: SELETTORI
+       - selettore per attributo
+       - selettore discendente
+       - selettore di classe
+       ------------------------------ */
+    .selector-demo {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    /* Seleziona tutti gli elementi con attributo data-kind="primary" */
+    [data-kind="primary"] {
+      border-left: 4px solid var(--accent);
+      padding-left: 10px;
+    }
+
+    /* Seleziona tutti i <code> dentro .selector-demo */
+    .selector-demo code {
+      background: rgba(0, 0, 0, 0.25);
+      padding: 2px 6px;
+      border-radius: 8px;
+      color: var(--text);
+    }
+
+    /* ------------------------------
+       10) BOTTONI: :hover, :active, :focus-visible
+       ------------------------------ */
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .btn {
+      border: var(--border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      cursor: pointer;
+
+      /* Transizioni su più proprietà */
+      transition: transform 0.12s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.22);
+      transform: translateY(-1px);
+    }
+
+    .btn:active {
+      /* quando clicchi: si abbassa leggermente */
+      transform: translateY(0px) scale(0.99);
+    }
+
+    .btn:focus-visible {
+      /* accessibilità: evidenzia solo se usi tastiera */
+      outline: 3px solid rgba(124, 92, 255, 0.55);
+      outline-offset: 2px;
+    }
+
+    .btn.primary {
+      /* classe aggiuntiva "primary" che modifica il bottone */
+      border-color: rgba(124, 92, 255, 0.55);
+      background: linear-gradient(135deg, rgba(124, 92, 255, 0.35), rgba(0, 212, 255, 0.20));
+    }
+
+    .btn.danger {
+      border-color: rgba(255, 61, 113, 0.55);
+      background: linear-gradient(135deg, rgba(255, 61, 113, 0.25), rgba(255, 255, 255, 0.06));
+    }
+
+    /* ------------------------------
+       11) PICCOLA ANIMAZIONE CON @keyframes
+       ------------------------------ */
+    @keyframes pulseGlow {
+      0%   { filter: drop-shadow(0 0 0 rgba(124, 92, 255, 0.0)); }
+      50%  { filter: drop-shadow(0 0 18px rgba(124, 92, 255, 0.45)); }
+      100% { filter: drop-shadow(0 0 0 rgba(124, 92, 255, 0.0)); }
+    }
+
+    .glow {
+      /* applica animazione: durata 2.5s, ripete all'infinito */
+      animation: pulseGlow 2.5s ease-in-out infinite;
+    }
+
+    /* ------------------------------
+       12) RESPONSIVE DESIGN: @media
+       Quando lo schermo è stretto, passa a una colonna sola
+       ------------------------------ */
+    @media (max-width: 900px) {
+      body {
+        padding: 18px;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr; /* una colonna */
+      }
+
+      header.hero {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* ------------------------------
+       13) EXTRA: dettagli tipografici
+       ------------------------------ */
+    .note {
+      font-size: 13px;
+      color: rgba(233, 238, 252, 0.70);
+      border-top: 1px solid rgba(255, 255, 255, 0.10);
+      padding-top: 10px;
+      margin-top: 14px;
+    }
+
+    /* Evidenzia parole importanti con un "marker" */
+    .mark {
+      background: rgba(0, 212, 255, 0.18);
+      border: 1px solid rgba(0, 212, 255, 0.25);
+      padding: 0 6px;
+      border-radius: 10px;
+      color: var(--text);
+      white-space: nowrap;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- ============================================================
+       HTML: STRUTTURA
+       L'HTML definisce la struttura (titoli, paragrafi, sezioni)
+       Il CSS definisce l'aspetto (colori, layout, spaziature, ecc.)
+       ============================================================ -->
+
+  <main class="page">
+    <header class="hero">
+      <h1>Come funziona CSS: demo completa (con commenti)</h1>
+      <div class="badge glow">CSS = regole + selettori + cascata</div>
+    </header>
+
+    <section class="grid-2">
+      <!-- ===========================
+           BLOCCO 1: SPIEGAZIONI (6+ paragrafi)
+           =========================== -->
+      <article class="card">
+        <h2>Spiegazione (in paragrafi)</h2>
+
+        <!-- 1° paragrafo -->
+        <div>
+          <p>
+            CSS serve a descrivere <span class="mark">lo stile</span> di una pagina HTML: colori, dimensioni, spazi,
+            allineamenti e animazioni. In pratica l’HTML dice “cos’è” un elemento (titolo, paragrafo, pulsante),
+            mentre il CSS dice “come appare”.
+          </p>
+        </div>
+
+        <!-- 2° paragrafo -->
+        <div>
+          <p>
+            Il CSS funziona tramite <span class="mark">regole</span>. Ogni regola ha un <b>selettore</b> (a chi si applica)
+            e un blocco di <b>proprietà</b> (cosa cambia). Esempio mentale: “tutti i paragrafi hanno un certo colore
+            e una certa distanza tra le righe”.
+          </p>
+        </div>
+
+        <!-- 3° paragrafo -->
+        <div>
+          <p>
+            La parola “Cascading” indica che possono esistere più regole che puntano allo stesso elemento, e il browser
+            decide quale vince usando <span class="mark">specificità</span> e ordine: in genere regole più specifiche
+            o dichiarate dopo possono sovrascrivere quelle precedenti.
+          </p>
+        </div>
+
+        <!-- 4° paragrafo -->
+        <div>
+          <p>
+            Il layout moderno usa spesso <span class="mark">Flexbox</span> (per allineare elementi in una riga/colonna)
+            e <span class="mark">Grid</span> (per creare griglie a colonne/righe). In questa pagina, la sezione principale
+            usa una griglia a due colonne e diventa a una colonna con una regola <code>@media</code> su schermi piccoli.
+          </p>
+        </div>
+
+        <!-- 5° paragrafo -->
+        <div>
+          <p>
+            Un concetto fondamentale è il <span class="mark">Box Model</span>: ogni elemento ha contenuto, padding,
+            bordo e margine. Se capisci il box model, capisci quasi sempre “perché” un elemento è troppo grande,
+            troppo distante o non si allinea come ti aspetti.
+          </p>
+        </div>
+
+        <!-- 6° paragrafo -->
+        <div>
+          <p>
+            Inoltre il CSS ha <span class="mark">pseudo-classi</span> come <code>:hover</code> (quando passi col mouse),
+            <code>:active</code> (quando clicchi) e <code>:focus-visible</code> (quando navighi da tastiera). Questo permette
+            interazioni senza JavaScript, migliorando anche l’accessibilità.
+          </p>
+        </div>
+
+        <!-- 7° paragrafo (extra, così sei sopra al minimo richiesto) -->
+        <div>
+          <p>
+            Infine, le <span class="mark">variabili CSS</span> (es. <code>--accent</code>) rendono lo stile più “pulito”:
+            cambi un colore una volta sola e si aggiorna ovunque. Qui le variabili sono dichiarate in <code>:root</code>.
+          </p>
+        </div>
+
+        <div class="note">
+          Nota: tutto il CSS di questa pagina è dentro il tag <code>&lt;style&gt;</code>. In un progetto reale spesso lo
+          metti in un file separato (es. <code>styles.css</code>) e lo colleghi con <code>&lt;link rel="stylesheet"&gt;</code>.
+        </div>
+      </article>
+
+      <!-- ===========================
+           BLOCCO 2: DEMO VISIVA
+           =========================== -->
+      <aside class="card">
+        <h2>Demo visiva</h2>
+
+        <div class="box-demo">
+          <div class="box">
+            <strong>Box model:</strong> questo blocco ha <code>padding</code>, <code>border</code>, <code>background</code>.
+            Passa col mouse per vedere <code>:hover</code>.
+          </div>
+
+          <div class="selector-demo">
+            <div data-kind="primary">
+              <strong>Selettore attributo:</strong> questo <code>div</code> ha <code>data-kind="primary"</code> e quindi
+              prende uno stile speciale.
+            </div>
+            <div>
+              <strong>Selettore discendente:</strong> tutti i <code>&lt;code&gt;</code> dentro questa area sono stilizzati.
+            </div>
+          </div>
+
+          <div class="actions">
+            <!-- bottoni con classi diverse per far vedere come le classi aggiuntive cambiano lo stile -->
+            <button class="btn" type="button">Bottone base</button>
+            <button class="btn primary" type="button">Bottone primary</button>
+            <button class="btn danger" type="button">Bottone danger</button>
+          </div>
+
+          <div class="box">
+            <strong>Responsive:</strong> riduci la finestra sotto ~900px per vedere la pagina passare a una colonna
+            (regola <code>@media</code>).
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>
