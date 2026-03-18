@@ -1,0 +1,31 @@
+class militare():
+    
+    grado = "placeholder"
+    
+    def marcia(self):
+        pass
+    
+class polizotto():
+    
+    grado = "brigadiere"
+    
+    def marcia(self):
+        print("il polizitto marcia ed di grado " + self.grado)
+
+class marine(militare):
+    
+    grado = "sergente"
+    velocità = 10
+    
+    def marcia(self):
+        print("il marine marcia alla velocità di ", self.velocità, " metri al secondo e di grado " + self.grado)
+        
+        
+def usaMilitiari(milita):
+    milita.marcia()
+    
+pippo = polizotto()
+ciccio = marine()
+    
+usaMilitiari(pippo)
+usaMilitiari(ciccio)
