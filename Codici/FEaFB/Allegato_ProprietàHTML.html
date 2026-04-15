@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Demo attributi HTML</title>
+  <style>
+    body { font-family: Arial; margin: 20px; }
+    .box { border: 1px solid #ccc; padding: 10px; margin-bottom: 15px; }
+  </style>
+</head>
+<body>
+
+  <!-- 1. contenteditable -->
+  <div class="box">
+    <h3>Editor (contenteditable)</h3>
+    <div contenteditable="true">
+      Modifica liberamente questo testo.
+    </div>
+  </div>
+
+  <!-- 2. data-* -->
+  <div class="box">
+    <h3>Data attribute</h3>
+    <button data-user-id="42" onclick="mostraId(this)">
+      Mostra ID utente
+    </button>
+  </div>
+
+  <!-- 3. hidden -->
+  <div class="box">
+    <h3>Hidden</h3>
+    <p id="testoNascosto" hidden>Testo inizialmente nascosto</p>
+    <button onclick="toggleHidden()">Mostra/Nascondi</button>
+  </div>
+
+  <!-- 4. draggable -->
+  <div class="box">
+    <h3>Draggable</h3>
+    <p draggable="true" ondragstart="dragStart(event)">
+      Trascinami
+    </p>
+    <div ondrop="drop(event)" ondragover="allowDrop(event)" 
+         style="height:50px; border:1px dashed black;">
+      Area di drop
+    </div>
+  </div>
+
+  <!-- 5. spellcheck -->
+  <div class="box">
+    <h3>Spellcheck</h3>
+    <textarea spellcheck="true" rows="3"></textarea>
+  </div>
+
+  <!-- 6. autocomplete + 8. required + 9. pattern -->
+  <div class="box">
+    <h3>Form</h3>
+    <form id="formDemo">
+      <input type="text" placeholder="Nome" autocomplete="name" required>
+      <input type="text" placeholder="Codice (3 lettere)" pattern="[A-Za-z]{3}">
+      <button type="submit">Invia</button>
+    </form>
+  </div>
+
+  <!-- 7. autofocus -->
+  <div class="box">
+    <h3>Autofocus</h3>
+    <input type="text" placeholder="Focus automatico" autofocus>
+  </div>
+
+  <!-- 10. sandbox + 14. aria -->
+  <div class="box">
+    <h3>Iframe sandbox</h3>
+    <iframe sandbox srcdoc="<p>Contenuto isolato</p>"></iframe>
+  </div>
+
+  <!-- 11. loading lazy -->
+  <div class="box">
+    <h3>Lazy loading</h3>
+    <img src="https://via.placeholder.com/300" loading="lazy">
+  </div>
+
+  <!-- 12. srcset -->
+  <div class="box">
+    <h3>Immagine responsive</h3>
+    <img 
+      src="https://via.placeholder.com/300"
+      srcset="https://via.placeholder.com/300 300w,
+              https://via.placeholder.com/600 600w"
+      sizes="(max-width: 600px) 300px, 600px">
+  </div>
+
+  <!-- 13. tabindex -->
+  <div class="box">
+    <h3>Tabindex</h3>
+    <div tabindex="0">Elemento focusabile con TAB</div>
+  </div>
+
+  <!-- 14. aria -->
+  <div class="box">
+    <h3>ARIA</h3>
+    <button aria-label="Chiudi finestra">X</button>
+  </div>
+
+<script>
+  function mostraId(btn) {
+    alert("User ID: " + btn.dataset.userId);
+  }
+
+  function toggleHidden() {
+    const el = document.getElementById("testoNascosto");
+    el.hidden = !el.hidden;
+  }
+
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  function dragStart(ev) {
+    ev.dataTransfer.setData("text", ev.target.innerText);
+  }
+
+  function drop(ev) {
+    ev.preventDefault();
+    const data = ev.dataTransfer.getData("text");
+    ev.target.innerText = data;
+  }
+</script>
+
+</body>
+</html>
