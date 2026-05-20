@@ -1,0 +1,39 @@
+/* Stile generale della pagina */
+body{
+    background-color: #f0f0f0;
+    font-family: Arial;
+}
+
+/* Contenitore centrale */
+.contenitore{
+
+    /* Sfondo bianco */
+    background-color: white;
+
+    /* Larghezza massima */
+    width: 400px;
+
+    /* Centra il blocco */
+    margin: 50px auto;
+
+    /* Spazio interno */
+    padding: 30px;
+
+    /* Angoli arrotondati */
+    border-radius: 10px;
+
+    /* Ombra */
+    box-shadow: 0px 0px 10px gray;
+
+    /* Testo centrato */
+    text-align: center;
+}
+
+/* Bottone */
+button{
+    padding: 10px 20px;
+    border: none;
+    background-color: royalblue;
+    color: white;
+    border-radius: 5px;
+}

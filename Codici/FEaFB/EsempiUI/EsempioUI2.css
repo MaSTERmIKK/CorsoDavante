@@ -1,0 +1,31 @@
+body{
+    text-align: center;
+    margin-top: 100px;
+}
+
+/* Bottone base */
+button{
+
+    background-color: green;
+    color: white;
+
+    padding: 15px 30px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+/* Quando il mouse passa sopra */
+button:hover{
+
+    background-color: darkgreen;
+
+    transform: scale(1.05);
+}

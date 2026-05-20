@@ -1,0 +1,44 @@
+body{
+    background-color: #eeeeee;
+    font-family: Arial;
+}
+
+/* Card */
+.card{
+
+    background-color: white;
+
+    width: 300px;
+
+    margin: 50px auto;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    text-align: center;
+
+    box-shadow: 0px 0px 15px lightgray;
+}
+
+/* Immagine */
+img{
+
+    width: 100%;
+
+    border-radius: 10px;
+}
+
+/* Bottone */
+button{
+
+    background-color: tomato;
+
+    color: white;
+
+    border: none;
+
+    padding: 10px 20px;
+
+    border-radius: 8px;
+}
