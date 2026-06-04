@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>UX Applicativa - Task Manager</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .contenitore {
+            width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #aaa;
+            border-radius: 6px;
+        }
+
+        textarea {
+            height: 90px;
+            resize: none;
+        }
+
+        .categorie {
+            margin-top: 10px;
+        }
+
+        .categoria {
+            padding: 10px;
+            margin: 5px 5px 5px 0;
+            border: 1px solid #888;
+            background-color: white;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .attiva {
+            background-color: #222;
+            color: white;
+        }
+
+        #contatore {
+            text-align: right;
+            color: #555;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 12px;
+            margin-top: 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+        }
+
+        #aggiungiBtn {
+            width: 100%;
+            background-color: #2d7ff9;
+            color: white;
+            font-weight: bold;
+        }
+
+        #aggiungiBtn:disabled {
+            background-color: #999;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        #messaggio {
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .errore {
+            border: 2px solid red;
+        }
+
+        .corretto {
+            border: 2px solid green;
+        }
+
+        .task {
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 8px;
+        }
+
+        .task h3 {
+            margin: 0;
+        }
+
+        .task p {
+            margin: 8px 0;
+        }
+
+        .tag {
+            display: inline-block;
+            background-color: #ddd;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 13px;
+        }
+
+        .elimina {
+            background-color: #d93025;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="contenitore">
+        <h1>Task Manager UX</h1>
+
+        <label for="titolo">Titolo attività</label>
+        <input 
+            type="text" 
+            id="titolo" 
+            placeholder="Esempio: Studiare JavaScript"
+            oninput="controllaForm()"
+        >
+
+        <label for="descrizione">Descrizione</label>
+        <textarea 
+            id="descrizione" 
+            maxlength="100" 
+            placeholder="Scrivi una breve descrizione"
+            oninput="controllaForm(); contaCaratteri();"
+        ></textarea>
+
+        <p id="contatore">0 / 100 caratteri</p>
+
+        <label>Categoria</label>
+        <div class="categorie">
+            <button class="categoria" onclick="selezionaCategoria(this)">Studio</button>
+            <button class="categoria" onclick="selezionaCategoria(this)">Lavoro</button>
+            <button class="categoria" onclick="selezionaCategoria(this)">Personale</button>
+        </div>
+
+        <button id="aggiungiBtn" onclick="aggiungiTask()" disabled>
+            Aggiungi attività
+        </button>
+
+        <p id="messaggio"></p>
+
+        <div id="listaTask"></div>
+    </div>
+
+    <script>
+        let categoriaScelta = "";
+
+        function selezionaCategoria(bottoneCliccato) {
+            let bottoni = document.getElementsByClassName("categoria");
+
+            for (let i = 0; i < bottoni.length; i++) {
+                bottoni[i].classList.remove("attiva");
+            }
+
+            bottoneCliccato.classList.add("attiva");
+
+            categoriaScelta = bottoneCliccato.innerHTML;
+
+            controllaForm();
+        }
+
+        function contaCaratteri() {
+            let descrizione = document.getElementById("descrizione");
+            let contatore = document.getElementById("contatore");
+
+            contatore.innerHTML = descrizione.value.length + " / 100 caratteri";
+        }
+
+        function controllaForm() {
+            let titolo = document.getElementById("titolo");
+            let descrizione = document.getElementById("descrizione");
+            let bottone = document.getElementById("aggiungiBtn");
+
+            titolo.classList.remove("errore", "corretto");
+            descrizione.classList.remove("errore", "corretto");
+
+            if (titolo.value !== "") {
+                titolo.classList.add("corretto");
+            }
+
+            if (descrizione.value !== "") {
+                descrizione.classList.add("corretto");
+            }
+
+            if (
+                titolo.value !== "" &&
+                descrizione.value !== "" &&
+                categoriaScelta !== ""
+            ) {
+                bottone.disabled = false;
+            } else {
+                bottone.disabled = true;
+            }
+        }
+
+        function aggiungiTask() {
+            let titolo = document.getElementById("titolo");
+            let descrizione = document.getElementById("descrizione");
+            let listaTask = document.getElementById("listaTask");
+            let messaggio = document.getElementById("messaggio");
+
+            if (titolo.value === "") {
+                titolo.classList.add("errore");
+                messaggio.innerHTML = "Il titolo è obbligatorio.";
+                messaggio.style.color = "red";
+                return;
+            }
+
+            if (descrizione.value === "") {
+                descrizione.classList.add("errore");
+                messaggio.innerHTML = "La descrizione è obbligatoria.";
+                messaggio.style.color = "red";
+                return;
+            }
+
+            if (categoriaScelta === "") {
+                messaggio.innerHTML = "Devi scegliere una categoria.";
+                messaggio.style.color = "red";
+                return;
+            }
+
+            let task = document.createElement("div");
+            task.className = "task";
+
+            task.innerHTML = `
+                <h3>${titolo.value}</h3>
+                <p>${descrizione.value}</p>
+                <span class="tag">${categoriaScelta}</span>
+                <br>
+                <button class="elimina" onclick="eliminaTask(this)">Elimina</button>
+            `;
+
+            listaTask.appendChild(task);
+
+            messaggio.innerHTML = "Attività aggiunta correttamente.";
+            messaggio.style.color = "green";
+
+            titolo.value = "";
+            descrizione.value = "";
+            categoriaScelta = "";
+
+            let bottoni = document.getElementsByClassName("categoria");
+
+            for (let i = 0; i < bottoni.length; i++) {
+                bottoni[i].classList.remove("attiva");
+            }
+
+            document.getElementById("contatore").innerHTML = "0 / 100 caratteri";
+            document.getElementById("aggiungiBtn").disabled = true;
+
+            titolo.classList.remove("errore", "corretto");
+            descrizione.classList.remove("errore", "corretto");
+        }
+
+        function eliminaTask(bottone) {
+            let conferma = confirm("Sei sicuro di voler eliminare questa attività?");
+
+            if (conferma === true) {
+                let task = bottone.parentElement;
+                task.remove();
+
+                let messaggio = document.getElementById("messaggio");
+                messaggio.innerHTML = "Attività eliminata correttamente.";
+                messaggio.style.color = "green";
+            }
+        }
+    </script>
+
+</body>
+</html>
