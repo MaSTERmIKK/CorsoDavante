@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Salvataggio dati</title>
+</head>
+<body>
+
+    <h2>Gestione Utente</h2>
+
+    <input type="text" id="nome" placeholder="Inserisci nome">
+    <input type="number" id="eta" placeholder="Inserisci età">
+
+    <button onclick="salvaDati()">Salva</button>
+    <button onclick="mostraDati()">Mostra</button>
+    <button onclick="eliminaDati()">Elimina</button>
+
+    <p id="risultato"></p>
+
+    <script>
+        function salvaDati() {
+            let nome = document.getElementById("nome").value;
+            let eta = document.getElementById("eta").value;
+
+            localStorage.setItem("nomeUtente", nome);
+            localStorage.setItem("etaUtente", eta);
+
+            document.getElementById("risultato").innerText =
+                "Dati salvati correttamente!";
+        }
+
+        function mostraDati() {
+            let nome = localStorage.getItem("nomeUtente");
+            let eta = localStorage.getItem("etaUtente");
+
+            if (nome !== null && eta !== null) {
+                document.getElementById("risultato").innerText =
+                    "Nome: " + nome + " - Età: " + eta;
+            } else {
+                document.getElementById("risultato").innerText =
+                    "Nessun dato salvato";
+            }
+        }
+
+        function eliminaDati() {
+            localStorage.removeItem("nomeUtente");
+            localStorage.removeItem("etaUtente");
+
+            document.getElementById("risultato").innerText =
+                "Dati eliminati!";
+        }
+    </script>
+
+</body>
+</html>
