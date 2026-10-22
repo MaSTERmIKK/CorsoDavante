@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Esercizio 3 - Closure</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 30px;
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Esercizio 3 - Closure</h2>
+
+    <button onclick="esercizio3A()">
+        Incrementa A
+    </button>
+
+    <button onclick="esercizio3B()">
+        Incrementa B
+    </button>
+
+    <p id="risultatoA">Contatore A: 0</p>
+    <p id="risultatoB">Contatore B: 0</p>
+
+    <script>
+        function creaContatore() {
+
+            // Variabile locale della funzione esterna
+            let numero = 0;
+
+            // Restituzione di una funzione interna
+            return function() {
+                numero++;
+                return numero;
+            };
+        }
+
+        // Creazione di due contatori indipendenti
+        let contatoreA = creaContatore();
+        let contatoreB = creaContatore();
+
+        function esercizio3A() {
+            let valore = contatoreA();
+
+            document.getElementById("risultatoA").innerHTML =
+                "Contatore A: " + valore;
+        }
+
+        function esercizio3B() {
+            let valore = contatoreB();
+
+            document.getElementById("risultatoB").innerHTML =
+                "Contatore B: " + valore;
+        }
+    </script>
+
+</body>
+</html>

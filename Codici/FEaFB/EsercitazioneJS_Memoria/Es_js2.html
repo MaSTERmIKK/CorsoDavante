@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Esercizio 2 - Contatore</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 30px;
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Esercizio 2 - Contatore</h2>
+
+    <button onclick="incrementaContatore()">
+        Incrementa
+    </button>
+
+    <p id="risultato">Contatore: 0</p>
+
+    <script>
+        // Variabile esterna alla funzione
+        let contatore = 0;
+
+        function incrementaContatore() {
+            // let interna;
+            
+            // Modifica della variabile esterna
+            contatore++;
+
+            document.getElementById("risultato").innerHTML =
+                "Contatore: " + contatore;
+        }
+    </script>
+
+</body>
+</html>
